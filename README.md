@@ -5,6 +5,9 @@ Author: **Chen Junshuo**
 
 A mini web application for course registration, enrollment management, and grades, with **student** and **teacher** roles.
 
+> **Repository:** https://github.com/qwerscd/full-stack-study-system  
+> Click folders `static/`, `templates/`, `docs/` on GitHub to expand the full tree.
+
 ## Tech stack
 
 | Layer | Technology |
@@ -68,19 +71,37 @@ role           max_capacity         enrolled_at
 - **HTML templates**: `{# EN: ... ZH: ... #}` at the top of each file
 - **Templates detail**: see `docs/CODE_ANNOTATIONS.md` for section-by-section bilingual notes
 
-## Project structure
+## Project structure (Flask)
+
+This project uses **`database.py`** for SQLite (no separate `models.py` — no SQLAlchemy ORM).
 
 ```
-study-system/
-├── app.py              # Flask routes & business logic
-├── database.py         # SQLite setup & seed data
-├── docs/CODE_ANNOTATIONS.md  # Bilingual notes for HTML templates
-├── requirements.txt
+full-stack-study-system/
+├── app.py                    # Flask app: routes, login, enroll, teacher CRUD
+├── database.py               # DB connection, tables, demo seed data
+├── requirements.txt          # Flask, Werkzeug
+├── .gitignore
+├── README.md
+├── docs/
+│   └── CODE_ANNOTATIONS.md   # Bilingual notes for HTML templates
 ├── static/
-│   ├── css/style.css
-│   └── js/app.js
-└── templates/          # HTML pages
+│   ├── css/style.css         # UI styles
+│   └── js/app.js             # Confirm dialogs, flash auto-hide
+└── templates/
+    ├── base.html             # Layout, nav, flash messages
+    ├── login.html
+    ├── register.html
+    ├── student/
+    │   ├── courses.html      # Browse / enroll / drop
+    │   ├── my_courses.html
+    │   └── grades.html
+    └── teacher/
+        ├── courses.html      # List / delete courses
+        ├── course_form.html  # Add / edit course
+        └── students.html     # Grades / remove student
 ```
+
+After clone, run `python app.py` — SQLite file `study_system.db` is created locally (not in git).
 
 ## Thesis alignment
 
