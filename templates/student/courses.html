@@ -1,0 +1,50 @@
+{# EN: Browse/enroll/drop courses. ZH: 浏览课程、选课、退课。 #}
+{% extends "base.html" %}
+{% block title %}Browse Courses{% endblock %}
+{% block content %}
+<div class="page-header">
+  <h1>Available Courses</h1>
+  <p>Select a course to enroll. If a course is full, you will see a message when you try to enroll.</p>
+</div>
+
+<div class="card-grid">
+  {% for course in courses %}
+  {% set full = course.enrolled_count >= course.max_capacity %}
+  <article class="card course-card {% if course.is_enrolled %}enrolled{% endif %} {% if full and not course.is_enrolled %}full{% endif %}">
+    <div class="card-top">
+      <span class="course-code">{{ course.code }}</span>
+      <span class="capacity">
+        {{ course.enrolled_count }} / {{ course.max_capacity }}
+      </span>
+    </div>
+    <h2>{{ course.title }}</h2>
+    <p class="muted">Instructor: {{ course.teacher_name }}</p>
+    <p>{{ course.description }}</p>
+    <div class="card-actions">
+      {% if course.is_enrolled %}
+      <form method="post" action="{{ url_for('drop_course', course_id=course.id, next='browse') }}" class="inline-form">
+        <button type="submit" class="btn btn-outline btn-danger-outline" data-confirm="Drop {{ course.code }}?">
+          Drop Course
+        </button>
+      </form>
+      {% else %}
+      {% if full %}
+      <p class="full-notice">This course is full ({{ course.enrolled_count }}/{{ course.max_capacity }}). Enrollment is closed.</p>
+      {% endif %}
+      <form method="post" action="{{ url_for('enroll_course', course_id=course.id) }}" class="inline-form">
+        <button type="submit" class="btn {% if full %}btn-outline{% else %}btn-primary{% endif %}"
+                {% if full %}data-confirm="This course may be full. Try to enroll in {{ course.code }} anyway?"{% else %}data-confirm="Enroll in {{ course.code }}?"{% endif %}>
+          {% if full %}Try Enroll{% else %}Enroll{% endif %}
+        </button>
+      </form>
+      {% if full %}
+      <span class="badge badge-danger">Full</span>
+      {% endif %}
+      {% endif %}
+    </div>
+  </article>
+  {% else %}
+  <p class="empty">No courses available yet.</p>
+  {% endfor %}
+</div>
+{% endblock %}

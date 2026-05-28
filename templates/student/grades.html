@@ -1,0 +1,34 @@
+{# EN: Student grades view. ZH: 学生成绩查看页。 #}
+{% extends "base.html" %}
+{% block title %}Grades{% endblock %}
+{% block content %}
+<div class="page-header">
+  <h1>My Grades</h1>
+  <p>View grades for all enrolled courses.</p>
+</div>
+
+{% if grades %}
+<table class="data-table">
+  <thead>
+    <tr>
+      <th>Code</th>
+      <th>Course</th>
+      <th>Grade</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for g in grades %}
+    <tr>
+      <td><strong>{{ g.code }}</strong></td>
+      <td>{{ g.title }}</td>
+      <td>{% if g.grade %}<span class="grade">{{ g.grade }}</span>{% else %}—{% endif %}</td>
+      <td>{% if g.grade %}<span class="badge badge-success">Released</span>{% else %}<span class="badge badge-warning">Not yet graded</span>{% endif %}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="empty">No grade records yet.</p>
+{% endif %}
+{% endblock %}

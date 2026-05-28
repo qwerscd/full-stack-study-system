@@ -1,0 +1,44 @@
+{# EN: Student's enrolled courses list. ZH: 学生已选课程列表。 #}
+{% extends "base.html" %}
+{% block title %}My Courses{% endblock %}
+{% block content %}
+<div class="page-header">
+  <h1>My Courses</h1>
+  <p>Courses you are currently enrolled in. You can drop a course before the term ends.</p>
+</div>
+
+{% if courses %}
+<table class="data-table">
+  <thead>
+    <tr>
+      <th>Code</th>
+      <th>Title</th>
+      <th>Instructor</th>
+      <th>Enrolled</th>
+      <th>Grade</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for c in courses %}
+    <tr>
+      <td><strong>{{ c.code }}</strong></td>
+      <td>{{ c.title }}</td>
+      <td>{{ c.teacher_name }}</td>
+      <td>{{ c.enrolled_at[:10] }}</td>
+      <td>{% if c.grade %}<span class="grade">{{ c.grade }}</span>{% else %}<span class="muted">Pending</span>{% endif %}</td>
+      <td>
+        <form method="post" action="{{ url_for('drop_course', course_id=c.course_id) }}" class="inline-form">
+          <button type="submit" class="btn btn-sm btn-danger" data-confirm="Drop {{ c.code }}? This cannot be undone.">
+            Drop
+          </button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="empty">You have not enrolled in any courses. <a href="{{ url_for('student_courses') }}">Browse courses</a></p>
+{% endif %}
+{% endblock %}

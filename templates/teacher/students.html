@@ -1,0 +1,48 @@
+{# EN: Course roster — grades and remove student. ZH: 课程名单 — 录成绩与移除学生。 #}
+{% extends "base.html" %}
+{% block title %}{{ course.code }} Students{% endblock %}
+{% block content %}
+<div class="page-header">
+  <a href="{{ url_for('teacher_courses') }}" class="back-link">← Back to courses</a>
+  <h1>{{ course.code }} — {{ course.title }}</h1>
+  <p>Assign grades or remove students from this course.</p>
+</div>
+
+{% if students %}
+<table class="data-table">
+  <thead>
+    <tr>
+      <th>Student</th>
+      <th>Email</th>
+      <th>Enrolled</th>
+      <th>Grade</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for s in students %}
+    <tr>
+      <td>{{ s.username }}</td>
+      <td>{{ s.email }}</td>
+      <td>{{ s.enrolled_at[:10] }}</td>
+      <td>{% if s.grade %}<span class="grade">{{ s.grade }}</span>{% else %}—{% endif %}</td>
+      <td class="actions-cell">
+        <form method="post" action="{{ url_for('update_grade', enrollment_id=s.enrollment_id) }}" class="grade-form">
+          <input type="text" name="grade" placeholder="A, B+, …" value="{{ s.grade or '' }}" maxlength="10">
+          <button type="submit" class="btn btn-sm">Save Grade</button>
+        </form>
+        <form method="post" action="{{ url_for('teacher_remove_student', enrollment_id=s.enrollment_id) }}" class="inline-form">
+          <button type="submit" class="btn btn-sm btn-danger"
+                  data-confirm="Remove {{ s.username }} from {{ course.code }}?">
+            Remove
+          </button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="empty">No students enrolled in this course yet.</p>
+{% endif %}
+{% endblock %}

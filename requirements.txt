@@ -1,0 +1,4 @@
+# EN: Python package dependencies for the study system
+# ZH: 学习系统 Python 依赖包列表
+Flask==3.0.3      # EN: Web framework / ZH: Web 框架
+Werkzeug==3.0.3   # EN: WSGI utilities (used by Flask, password hashing) / ZH: WSGI 工具（Flask 依赖、密码哈希）

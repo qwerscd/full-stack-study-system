@@ -1,0 +1,31 @@
+{# EN: Create or edit course form. ZH: 新建或编辑课程表单。 #}
+{% extends "base.html" %}
+{% block title %}{{ 'Edit' if course else 'New' }} Course{% endblock %}
+{% block content %}
+<section class="form-card">
+  <h1>{{ 'Edit Course' if course else 'Create Course' }}</h1>
+  <form method="post" class="form">
+    {% if not course %}
+    <label for="code">Course Code</label>
+    <input type="text" id="code" name="code" required placeholder="e.g. CS101">
+    {% else %}
+    <p class="field-readonly"><strong>Code:</strong> {{ course.code }}</p>
+    {% endif %}
+
+    <label for="title">Title</label>
+    <input type="text" id="title" name="title" required value="{{ course.title if course else '' }}">
+
+    <label for="description">Description</label>
+    <textarea id="description" name="description" rows="4">{{ course.description if course else '' }}</textarea>
+
+    <label for="max_capacity">Maximum Enrollment</label>
+    <input type="number" id="max_capacity" name="max_capacity" min="1" required
+           value="{{ course.max_capacity if course else 30 }}">
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">Save</button>
+      <a href="{{ url_for('teacher_courses') }}" class="btn btn-outline">Cancel</a>
+    </div>
+  </form>
+</section>
+{% endblock %}

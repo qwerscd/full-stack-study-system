@@ -1,0 +1,54 @@
+{# EN: Teacher course list — edit/delete/students. ZH: 教师课程列表 — 编辑/删除/学生。 #}
+{% extends "base.html" %}
+{% block title %}Teacher Courses{% endblock %}
+{% block content %}
+<div class="page-header row">
+  <div>
+    <h1>My Courses</h1>
+    <p>Add, edit, or delete your courses. Open Students to remove enrollments or set grades.</p>
+  </div>
+  <a href="{{ url_for('teacher_course_new') }}" class="btn btn-primary">+ New Course</a>
+</div>
+
+{% if courses %}
+<table class="data-table">
+  <thead>
+    <tr>
+      <th>Code</th>
+      <th>Title</th>
+      <th>Enrollment</th>
+      <th>Capacity</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for c in courses %}
+    <tr>
+      <td><strong>{{ c.code }}</strong></td>
+      <td>{{ c.title }}</td>
+      <td>{{ c.enrolled_count }} / {{ c.max_capacity }}</td>
+      <td>
+        {% if c.enrolled_count >= c.max_capacity %}
+        <span class="badge badge-danger">Full</span>
+        {% else %}
+        <span class="badge badge-success">Open</span>
+        {% endif %}
+      </td>
+      <td class="actions">
+        <a href="{{ url_for('teacher_course_students', course_id=c.id) }}" class="btn btn-sm">Students</a>
+        <a href="{{ url_for('teacher_course_edit', course_id=c.id) }}" class="btn btn-sm btn-outline">Edit</a>
+        <form method="post" action="{{ url_for('teacher_course_delete', course_id=c.id) }}" class="inline-form">
+          <button type="submit" class="btn btn-sm btn-danger"
+                  data-confirm="Delete {{ c.code }}?{% if c.enrolled_count %} {{ c.enrolled_count }} student(s) will be unenrolled.{% endif %} This cannot be undone.">
+            Delete
+          </button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="empty">You have not created any courses yet.</p>
+{% endif %}
+{% endblock %}

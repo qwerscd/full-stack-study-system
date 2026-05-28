@@ -1,0 +1,300 @@
+/* =============================================================================
+   style.css — 全局样式 / Global styles
+   EN: Colors, layout, forms, tables, course cards, flash messages.
+   ZH: 颜色变量、布局、表单、表格、课程卡片、提示消息样式。
+   ============================================================================= */
+
+/* EN: CSS variables (theme colors) / ZH: CSS 变量（主题色） */
+:root {
+  --bg: #f4f6f9;
+  --surface: #ffffff;
+  --text: #1a2332;
+  --muted: #5c6b7a;
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --success: #059669;
+  --warning: #d97706;
+  --danger: #dc2626;
+  --border: #e2e8f0;
+  --radius: 10px;
+  --shadow: 0 4px 20px rgba(15, 23, 42, 0.08);
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+
+/* EN: Reset box model / ZH: 重置盒模型与默认边距 */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* EN: Page body — full height column layout / ZH: 页面主体 — 纵向全屏布局 */
+body {
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.5;
+}
+
+/* EN: Centered content wrapper / ZH: 居中内容容器 */
+.container { max-width: 1000px; margin: 0 auto; padding: 0 1.25rem; }
+
+/* EN: Top navigation bar (sticky) / ZH: 顶部导航栏（吸顶） */
+.site-header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-height: 60px;
+  flex-wrap: wrap;
+}
+
+.logo {
+  font-weight: 700;
+  color: var(--primary);
+  text-decoration: none;
+  font-size: 1.1rem;
+}
+
+.main-nav { display: flex; gap: 1rem; flex: 1; }
+.main-nav a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+.main-nav a:hover { color: var(--primary); }
+
+.user-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.role-badge {
+  text-transform: capitalize;
+  font-size: 0.75rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  font-weight: 600;
+}
+.role-student { background: #dbeafe; color: #1e40af; }
+.role-teacher { background: #fef3c7; color: #92400e; }
+
+.main-content { flex: 1; padding: 2rem 0; }
+
+.site-footer {
+  border-top: 1px solid var(--border);
+  padding: 1rem 0;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.85rem;
+  background: var(--surface);
+}
+
+.page-header { margin-bottom: 1.5rem; }
+.page-header h1 { font-size: 1.75rem; margin-bottom: 0.35rem; }
+.page-header .subtitle, .page-header p { color: var(--muted); }
+.page-header.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* EN: Login/register and teacher form cards / ZH: 登录注册与教师表单卡片 */
+.auth-card, .form-card {
+  max-width: 420px;
+  margin: 2rem auto;
+  background: var(--surface);
+  padding: 2rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.auth-card h1, .form-card h1 { margin-bottom: 0.5rem; }
+.subtitle { color: var(--muted); margin-bottom: 1.25rem; }
+
+.form label {
+  display: block;
+  margin-top: 1rem;
+  margin-bottom: 0.35rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.form input, .form select, .form textarea {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.form textarea { resize: vertical; }
+
+/* EN: Button styles (primary, danger, outline) / ZH: 按钮样式（主要、危险、描边） */
+.btn {
+  display: inline-block;
+  padding: 0.55rem 1rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  text-decoration: none;
+  text-align: center;
+  background: var(--border);
+  color: var(--text);
+}
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-primary:hover { background: var(--primary-hover); }
+.btn-outline { background: transparent; border: 1px solid var(--border); }
+.btn-danger { background: var(--danger); color: #fff; }
+.btn-danger:hover { background: #b91c1c; }
+.btn-danger-outline {
+  background: transparent;
+  border: 1px solid var(--danger);
+  color: var(--danger);
+}
+.btn-danger-outline:hover { background: #fee2e2; }
+.btn-block { width: 100%; margin-top: 1.25rem; }
+.btn-sm { padding: 0.35rem 0.65rem; font-size: 0.85rem; }
+
+.auth-footer { margin-top: 1rem; text-align: center; color: var(--muted); font-size: 0.9rem; }
+.auth-footer a { color: var(--primary); }
+
+.demo-hint {
+  margin-top: 1.5rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.demo-hint ul { margin-top: 0.5rem; padding-left: 1.25rem; }
+.demo-hint code { background: #f1f5f9; padding: 0.1rem 0.35rem; border-radius: 4px; }
+
+/* EN: Server flash messages (success, danger, etc.) / ZH: 服务端提示条（成功、错误等） */
+.flash-list { margin-bottom: 1rem; }
+.flash {
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+.flash-success { background: #d1fae5; color: #065f46; }
+.flash-danger { background: #fee2e2; color: #991b1b; }
+.flash-warning { background: #fef3c7; color: #92400e; }
+.flash-info { background: #e0f2fe; color: #075985; }
+
+/* EN: Student course browse — card grid / ZH: 学生浏览课程 — 卡片网格 */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+
+.course-card.enrolled { border-color: var(--success); }
+.course-card.full { opacity: 0.85; }
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+.course-code {
+  font-weight: 700;
+  color: var(--primary);
+}
+.capacity { font-size: 0.85rem; color: var(--muted); }
+
+.card h2 { font-size: 1.1rem; margin-bottom: 0.35rem; }
+.card p { font-size: 0.9rem; margin-bottom: 0.5rem; }
+.muted { color: var(--muted); }
+.card-actions { margin-top: 1rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; }
+.full-notice {
+  width: 100%;
+  font-size: 0.85rem;
+  color: var(--danger);
+  margin-bottom: 0.25rem;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.badge-success { background: #d1fae5; color: #065f46; }
+.badge-danger { background: #fee2e2; color: #991b1b; }
+.badge-warning { background: #fef3c7; color: #92400e; }
+
+.data-table {
+  width: 100%;
+  background: var(--surface);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  border-collapse: collapse;
+}
+.data-table th, .data-table td {
+  padding: 0.85rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.95rem;
+}
+.data-table th {
+  background: #f8fafc;
+  font-weight: 600;
+  color: var(--muted);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.data-table tr:last-child td { border-bottom: none; }
+
+.grade { font-weight: 700; color: var(--primary); }
+.actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+.actions-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+.grade-form {
+  display: flex;
+  gap: 0.35rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.grade-form input {
+  width: 70px;
+  padding: 0.35rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+
+.inline-form { display: inline; }
+.form-actions { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
+.field-readonly { margin: 1rem 0; color: var(--muted); }
+.back-link { color: var(--primary); text-decoration: none; font-size: 0.9rem; display: inline-block; margin-bottom: 0.5rem; }
+.empty { color: var(--muted); padding: 2rem; text-align: center; }
+
+/* EN: Mobile responsive tweaks / ZH: 手机端响应式调整 */
+@media (max-width: 600px) {
+  .data-table { font-size: 0.85rem; }
+  .data-table th, .data-table td { padding: 0.6rem; }
+}
