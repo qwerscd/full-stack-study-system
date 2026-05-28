@@ -61,12 +61,20 @@ role           max_capacity         enrolled_at
                teacher_id → users   UNIQUE(student_id, course_id)
 ```
 
+## Code comments (EN / 中文)
+
+- **Python** (`app.py`, `database.py`): `# EN:` / `# ZH:` on imports, routes, and logic
+- **CSS / JS**: `/* EN: */` block comments and `/** */` in `app.js`
+- **HTML templates**: `{# EN: ... ZH: ... #}` at the top of each file
+- **Templates detail**: see `docs/CODE_ANNOTATIONS.md` for section-by-section bilingual notes
+
 ## Project structure
 
 ```
 study-system/
 ├── app.py              # Flask routes & business logic
 ├── database.py         # SQLite setup & seed data
+├── docs/CODE_ANNOTATIONS.md  # Bilingual notes for HTML templates
 ├── requirements.txt
 ├── static/
 │   ├── css/style.css
