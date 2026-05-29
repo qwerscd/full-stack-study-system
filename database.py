@@ -110,8 +110,8 @@ def ensure_demo_users():
 
 def seed_demo_data():
     """
-    EN: Fill initial teachers, students, courses, sample enrollments.
-    ZH: 填充初始教师、学生、课程及示例选课记录。
+    EN: Fill initial teachers, students, courses. No pre-enrollments (demo enrolls manually).
+    ZH: 填充教师、学生、课程。不预置选课记录（演示时手动选）。
     """
     from werkzeug.security import generate_password_hash
 
@@ -165,17 +165,4 @@ def seed_demo_data():
                 """,
                 (code, title, desc, cap, teacher_id),
             )
-
-        # EN: Sample enrollment: student id 3 in course 1 with grade A / ZH: 示例选课记录
-        conn.execute(
-            """
-            INSERT INTO enrollments (student_id, course_id, grade)
-            VALUES (3, 1, 'A')
-            """
-        )
-        conn.execute(
-            """
-            INSERT INTO enrollments (student_id, course_id, grade)
-            VALUES (3, 2, 'B+')
-            """
-        )
+        # EN: No default enrollments — use student1/2/3 live during demo / ZH: 不插入默认选课

@@ -1,33 +1,33 @@
 # Full-Stack Study System
 
-Thesis prototype: **Design and Development of a Full-Stack Study System**  
-Author: **Chen Junshuo**
+Course project for my thesis (*Design and Development of a Full-Stack Study System*).  
+Author: Chen Junshuo
 
-A mini web application for course registration, enrollment management, and grades, with **student** and **teacher** roles.
+It's a small web app where students can log in, pick courses, and check grades. Teachers can add courses and manage who enrolled.
 
-> **Repository:** https://github.com/qwerscd/full-stack-study-system  
-> Click folders `static/`, `templates/`, `docs/` on GitHub to expand the full tree.
+GitHub: https://github.com/qwerscd/full-stack-study-system
 
-## Tech stack
+## What I used
 
-| Layer | Technology |
-|-------|------------|
-| Frontend | HTML, CSS, JavaScript |
-| Backend | Python 3 + Flask |
-| Database | SQLite |
+- HTML / CSS / JavaScript for the pages
+- Python + Flask for the server
+- SQLite for the database (file `study_system.db`, created when you first run the app)
 
-## Features
+There is no `models.py` — I put SQL and table setup in `database.py` because our course project didn't need ORM.
 
-- User registration and login
-- Role-based access (student / teacher)
-- Students: browse courses, enroll, drop courses, view my courses and grades
-- Teachers: create, edit, delete courses; view students; remove enrollments; assign grades
-- Business rules:
-  - Maximum enrollment per course
-  - No duplicate enrollment (DB unique constraint + server check)
-  - Role-based permissions
+## Main functions
 
-## Quick start
+Students can register, log in, browse courses, enroll, drop a course, and see grades.
+
+Teachers can create / edit / delete their own courses, see the student list, enter grades, and remove a student from a course.
+
+Rules I implemented:
+
+1. Each course has a max number of students. When it's full, nobody else can enroll.
+2. The same student cannot enroll in the same course twice (checked in code + `UNIQUE` in the database).
+3. Students and teachers see different pages (`student` vs `teacher` role).
+
+## How to run
 
 ```bash
 cd /Users/chenjunshuo/Projects/study-system
@@ -37,72 +37,49 @@ pip install -r requirements.txt
 python app.py
 ```
 
-Open [http://127.0.0.1:5000](http://127.0.0.1:5000)
+Then open http://127.0.0.1:5000 in the browser.
 
-### Demo accounts
+If you already ran an older version and CS101 looks wrong, delete `study_system.db` and run `python app.py` again. That rebuilds a clean database.
 
-| Role | Username | Password |
-|------|----------|----------|
-| Student | `student1` | `student123` |
-| Student | `student2` | `student123` |
-| Student | `student3` | `student123` |
-| Teacher | `teacher1` | `teacher123` |
-| Teacher | `teacher2` | `teacher123` |
+## Test accounts
 
-**Test “course full”:** Log in as `student1` and `student2`, enroll in **CS101** (capacity 2). Then log in as `student3`, open **Browse Courses**, click **Try Enroll** on CS101 — you should see: *“CS101 is full (2/2 seats). No more students can enroll.”*
+| Role    | Username   | Password     |
+|---------|------------|--------------|
+| Student | student1   | student123   |
+| Student | student2   | student123   |
+| Student | student3   | student123   |
+| Teacher | teacher1   | teacher123   |
+| Teacher | teacher2   | teacher123   |
 
-## Database schema
+## Demo: course full (CS101)
 
-```
-users          courses              enrollments
-─────────      ─────────            ─────────────
-id             id                   id
-username       code (unique)        student_id → users
-email          title                course_id → courses
-password_hash  description          grade (nullable)
-role           max_capacity         enrolled_at
-               teacher_id → users   UNIQUE(student_id, course_id)
-```
+CS101 is set to **2** seats only, so I can show the "full" message in class.
 
-## Code comments (EN / 中文)
+Steps I use when presenting:
 
-- **Python** (`app.py`, `database.py`): `# EN:` / `# ZH:` on imports, routes, and logic
-- **CSS / JS**: `/* EN: */` block comments and `/** */` in `app.js`
-- **HTML templates**: `{# EN: ... ZH: ... #}` at the top of each file
-- **Templates detail**: see `docs/CODE_ANNOTATIONS.md` for section-by-section bilingual notes
+1. **student1** logs in → Browse Courses → enroll **CS101** (now 1/2).
+2. **student2** logs in → enroll **CS101** again (now 2/2, full).
+3. **student3** logs in → Browse Courses → click **Try Enroll** on CS101 → should get:  
+   `CS101 is full (2/2 seats). No more students can enroll.`
 
-## Project structure (Flask)
+Nothing is pre-selected in the database anymore — I do all three steps live.
 
-This project uses **`database.py`** for SQLite (no separate `models.py` — no SQLAlchemy ORM).
+## Database (3 tables)
+
+- `users` — login, role (`student` or `teacher`)
+- `courses` — code, title, teacher, `max_capacity`
+- `enrollments` — which student picked which course, optional `grade`
+
+## Folder layout
 
 ```
-full-stack-study-system/
-├── app.py                    # Flask app: routes, login, enroll, teacher CRUD
-├── database.py               # DB connection, tables, demo seed data
-├── requirements.txt          # Flask, Werkzeug
-├── .gitignore
-├── README.md
-├── docs/
-│   └── CODE_ANNOTATIONS.md   # Bilingual notes for HTML templates
-├── static/
-│   ├── css/style.css         # UI styles
-│   └── js/app.js             # Confirm dialogs, flash auto-hide
-└── templates/
-    ├── base.html             # Layout, nav, flash messages
-    ├── login.html
-    ├── register.html
-    ├── student/
-    │   ├── courses.html      # Browse / enroll / drop
-    │   ├── my_courses.html
-    │   └── grades.html
-    └── teacher/
-        ├── courses.html      # List / delete courses
-        ├── course_form.html  # Add / edit course
-        └── students.html     # Grades / remove student
+app.py              # routes (login, enroll, teacher stuff)
+database.py         # SQLite tables + demo users/courses
+requirements.txt
+static/css/style.css
+static/js/app.js
+templates/          # HTML pages (student + teacher)
+docs/               # extra notes, 解释项目.docx
 ```
 
-After clone, run `python app.py` — SQLite file `study_system.db` is created locally (not in git).
-
-## Thesis alignment
-
-This prototype matches the planned thesis scope: full-stack development, simple relational database design, authentication/authorization, and basic UX for a study-system scenario.
+Code has mixed EN/ZH comments in Python/CSS/templates if you need that for the report. More detail in `docs/CODE_ANNOTATIONS.md`.
