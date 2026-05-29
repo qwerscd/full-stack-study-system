@@ -505,4 +505,4 @@ if __name__ == "__main__":
     # EN: Run directly: python app.py / ZH: 直接运行：python app.py
     init_db()  # EN: Ensure tables exist / ZH: 确保表已创建
     seed_demo_data()  # EN: Load demo users/courses / ZH: 加载演示数据
-    app.run(debug=True, host="127.0.0.1", port=5000)
+    app.run(debug=True, host="127.0.0.1", port=5001)
