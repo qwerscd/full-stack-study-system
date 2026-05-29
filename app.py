@@ -505,4 +505,5 @@ if __name__ == "__main__":
     # EN: Run directly: python app.py / ZH: 直接运行：python app.py
     init_db()  # EN: Ensure tables exist / ZH: 确保表已创建
     seed_demo_data()  # EN: Load demo users/courses / ZH: 加载演示数据
-    app.run(debug=True, port=5000)  # EN: Dev server on port 5000 / ZH: 开发服务器 5000 端口
+    # EN: Port 5000 is often taken by macOS AirPlay — use 5001 / ZH: macOS 常占用 5000，改用 5001
+    app.run(debug=True, host="127.0.0.1", port=5001)

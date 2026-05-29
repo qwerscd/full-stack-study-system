@@ -37,7 +37,9 @@ pip install -r requirements.txt
 python app.py
 ```
 
-Then open http://127.0.0.1:5000 in the browser.
+Then open **http://127.0.0.1:5001** in the browser.
+
+(On many Macs, port 5000 is used by AirPlay, so the app runs on **5001** instead.)
 
 If you already ran an older version and CS101 looks wrong, delete `study_system.db` and run `python app.py` again. That rebuilds a clean database.
 
@@ -79,7 +81,4 @@ requirements.txt
 static/css/style.css
 static/js/app.js
 templates/          # HTML pages (student + teacher)
-docs/               # extra notes, 解释项目.docx
 ```
-
-Code has mixed EN/ZH comments in Python/CSS/templates if you need that for the report. More detail in `docs/CODE_ANNOTATIONS.md`.
