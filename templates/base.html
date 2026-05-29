@@ -1,22 +1,18 @@
-{# EN: Base layout — header nav, flash messages, footer, child {% block content %}
-   ZH: 基础布局 — 顶栏导航、提示消息、页脚，子页面填充 content 块 #}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- EN: Page title from child template / ZH: 子模板定义的页面标题 -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}Study System{% endblock %} | Chen Junshuo</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-  <!-- EN: Top bar — logo, role-based links, logout / ZH: 顶栏 — Logo、按角色显示菜单、退出 -->
   <header class="site-header">
     <div class="container header-inner">
       <a href="{{ url_for('index') }}" class="logo">Study System</a>
-      {% if session.get('user_id') %} {# EN: Only when logged in / ZH: 仅登录后显示 #}
+      {% if session.get('user_id') %}
       <nav class="main-nav">
-        {% if session.get('role') == 'student' %} {# EN: Student menu / ZH: 学生菜单 #}
+        {% if session.get('role') == 'student' %}
         <a href="{{ url_for('student_courses') }}">Browse Courses</a>
         <a href="{{ url_for('student_my_courses') }}">My Courses</a>
         <a href="{{ url_for('student_grades') }}">Grades</a>

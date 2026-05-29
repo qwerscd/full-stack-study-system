@@ -4,3 +4,7 @@ __pycache__/
 study_system.db
 .DS_Store
 *.egg-info/
+.cursor/
+PROJECT_MEMORY.md
+docs/
+scripts/

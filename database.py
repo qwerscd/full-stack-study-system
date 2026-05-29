@@ -1,44 +1,34 @@
-# =============================================================================
-# database.py — 数据库模块 / Database module
-# 负责 SQLite 连接、表结构初始化、演示数据 / Handles SQLite, schema, demo data
-# =============================================================================
+import sqlite3
+from contextlib import contextmanager
+from pathlib import Path
 
-import sqlite3  # EN: Python built-in SQLite driver / ZH: Python 内置 SQLite 驱动
-from contextlib import contextmanager  # EN: Context manager for safe DB sessions / ZH: 上下文管理器，安全管理数据库会话
-from pathlib import Path  # EN: Object-oriented file paths / ZH: 面向对象的路径处理
-
-# EN: Database file path next to this script / ZH: 数据库文件路径（与本文件同目录）
 DB_PATH = Path(__file__).parent / "study_system.db"
 
 
 def get_connection():
-    """EN: Open one SQLite connection. ZH: 打开一个 SQLite 连接。"""
-    conn = sqlite3.connect(DB_PATH)  # EN: Connect to file / ZH: 连接到数据库文件
-    conn.row_factory = sqlite3.Row  # EN: Rows behave like dicts (by column name) / ZH: 行可按列名访问
-    conn.execute("PRAGMA foreign_keys = ON")  # EN: Enable FK constraints / ZH: 启用外键约束
-    return conn  # EN: Return connection to caller / ZH: 返回连接对象
+    conn = sqlite3.connect(DB_PATH)
+    conn.row_factory = sqlite3.Row
+    conn.execute("PRAGMA foreign_keys = ON")
+    return conn
 
 
 @contextmanager
 def db_session():
-    """
-    EN: Context manager: auto commit on success, rollback on error, always close.
-    ZH: 上下文管理器：成功则提交，出错则回滚，最后一定关闭连接。
-    """
-    conn = get_connection()  # EN: New connection / ZH: 新建连接
+    """Open a database connection and commit or roll back automatically."""
+    conn = get_connection()
     try:
-        yield conn  # EN: Hand connection to `with` block / ZH: 把连接交给 with 代码块使用
-        conn.commit()  # EN: Save changes if no exception / ZH: 无异常则提交事务
+        yield conn
+        conn.commit()
     except Exception:
-        conn.rollback()  # EN: Undo changes on failure / ZH: 失败时回滚
-        raise  # EN: Re-raise error for caller / ZH: 继续向上抛出异常
+        conn.rollback()
+        raise
     finally:
-        conn.close()  # EN: Always release connection / ZH: 无论如何都关闭连接
+        conn.close()
 
 
 def init_db():
-    """EN: Create tables if they do not exist. ZH: 若表不存在则创建表结构。"""
-    with db_session() as conn:  # EN: Use managed session / ZH: 使用托管会话
+    """Create tables if they do not exist."""
+    with db_session() as conn:
         conn.executescript(
             """
             -- EN: users table stores login accounts / ZH: users 表存储登录账号
