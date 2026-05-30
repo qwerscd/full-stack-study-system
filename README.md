@@ -5,7 +5,7 @@ Author: Chen Junshuo
 
 It's a small web app where students can log in, pick courses, and check grades. Teachers can add courses and manage who enrolled.
 
-GitHub: https://github.com/qwerscd/full-stack-study-system
+GitHub: <https://github.com/qwerscd/full-stack-study-system>
 
 ## What I used
 
@@ -30,24 +30,34 @@ Rules I implemented:
 ## How to run
 
 ```bash
-cd /Users/chenjunshuo/Projects/study-system
+git clone https://github.com/qwerscd/full-stack-study-system.git
+cd full-stack-study-system
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
-python app.py
+python3 app.py
 ```
 
-Then open **http://127.0.0.1:5001** in the browser.
+Then open **<http://127.0.0.1:5001>** in the browser.
+
+## Running the tests
+
+```bash
+source venv/bin/activate
+python3 -m pytest tests/test_app.py -v
+```
+
+19 test cases cover login, registration, enrollment, access control, and teacher course management. All 19 tests pass.
 
 ## Test accounts
 
-| Role    | Username   | Password     |
-|---------|------------|--------------|
-| Student | student1   | student123   |
-| Student | student2   | student123   |
-| Student | student3   | student123   |
-| Teacher | teacher1   | teacher123   |
-| Teacher | teacher2   | teacher123   |
+| Role    | Username | Password   |
+| ------- | -------- | ---------- |
+| Student | student1 | student123 |
+| Student | student2 | student123 |
+| Student | student3 | student123 |
+| Teacher | teacher1 | teacher123 |
+| Teacher | teacher2 | teacher123 |
 
 ## Demo: course full (CS101)
 
@@ -58,7 +68,7 @@ Steps I use when presenting:
 1. **student1** logs in → Browse Courses → enroll **CS101** (now 1/2).
 2. **student2** logs in → enroll **CS101** again (now 2/2, full).
 3. **student3** logs in → Browse Courses → click **Try Enroll** on CS101 → should get:  
-   `CS101 is full (2/2 seats). No more students can enroll.`
+`CS101 is full (2/2 seats). No more students can enroll.`
 
 Nothing is pre-selected in the database anymore — I do all three steps live.
 
@@ -77,4 +87,5 @@ requirements.txt
 static/css/style.css
 static/js/app.js
 templates/          # HTML pages (student + teacher)
+tests/test_app.py   # pytest test suite (19 tests)
 ```
